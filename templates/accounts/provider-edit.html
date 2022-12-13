@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+<div id="box">
+<header>
+        <h1><a class="index-navigation" href="{% url 'index' %}">Service Collection</a></h1>
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'provider details' pk=object.pk%}">Profile details</a>
+        </nav>
+    </header>
+    <section id="register-page" class="content auth">
+        <form id="register" method="post" action="{% url 'provider edit' pk=object.pk %}">
+            <div class="container">
+                <h2>Edit Profile</h2>
+                {{ form }}
+                {% csrf_token %}
+                <input class="btn" type="submit" value="Edit Profile">
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}

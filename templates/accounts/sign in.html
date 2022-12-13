@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+        <div>
+            <h1>Sing in page</h1>
+            <form method="post" action="{% url 'sing in' %}">
+                {{ form }}
+                <input type="hidden" name="next" value="{{ next }}">
+                <input class="btn" type="submit" value="Sign in">
+                {% csrf_token %}
+            </form>
+        </div>
+        <div class="second-option">
+            <h3>Do you want to make a find the service you are looking for? <a href="{% url 'customer sign up' %}">Sign up here</a></h3>
+            <h3>Do you want to list the service you are providing? <a href="{% url 'provider sign up' %}">Sign up here</a></h3>
+        </div>
+{% endblock %}

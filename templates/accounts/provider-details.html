@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+ <div id="box">
+    <header>
+        <h1><a class="index-navigation" href="{% url 'index' %}">Home</a></h1>
+    </header>
+    <section id="car-details">
+        <h1>Profile Details</h1>
+        <div class="info-section">
+            <div class="car-header">
+                {% if object %}
+                    <img class="car-img" src="/static/images/default-profile.png" alt='profile-image'/>
+                {% else %}
+                    <img class="car-img" src="" alt='profile-image'/>
+                {% endif %}
+                <h1>
+                </h1>
+                <p class="description">First Name: {{ object.first_name }}</p>
+                <p class="description">Last Name: {{ object.last_name }}</p>
+                <p class="description">Address: {{ object.address}}</p>
+                <p class="description">Phone number: {{ object.phone_number}}</p>
+                <div class="buttons">
+                    <a href="{% url 'provider appointments' %}" class="edit-button">My appointments</a>
+                    <a href="{% url 'provider edit' pk=request.user.pk %}" class="edit-button">Edit</a>
+                    <a href="{% url 'provider delete' pk=request.user.pk %}" class="delete-button">Delete</a>
+                </div>
+            </div>
+        </div>
+    </section>
+ </div>
+{% endblock %}

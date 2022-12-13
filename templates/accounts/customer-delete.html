@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+  <header>
+        <h1><a class="index-navigation" href="{% url 'index' %}">Service Collection</a></h1>
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'customer details' pk=object.pk %}">Profile details</a>
+        </nav>
+    </header>
+  <section id="create-page" class="auth">
+      <div class="container">
+        <h1>Are you sure you want to delete your profile?</h1>
+        <form id='delete' method="post" action="{% url 'customer delete' pk=object.pk %}">
+                {{ form }}
+                {% csrf_token %}
+        <input class="btn submit" type="submit" value="Yes">
+        </form>
+      </div>
+  </section>
+{% endblock %}

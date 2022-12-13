@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+<div id="box">
+    <header>
+        <h1><a class="index-navigation" href="{% url 'index' %}">Service Collection</a></h1>
+        <nav>
+            <a href="{% url 'index' %}">Home</a>
+        </nav>
+    </header>
+    <section id="create-page" class="auth">
+        <form id="create" method="post" action="{% url 'add service' %}">
+            <div class="container">
+                <h1 class="form-create-headline">Create Service</h1>
+            {{ form.as_p }}
+                {% csrf_token %}
+                <input class="btn" type="submit" value="Create Service">
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}

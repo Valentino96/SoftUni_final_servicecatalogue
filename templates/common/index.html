@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <header xmlns="http://www.w3.org/1999/html">
+        <h1><a class="index-navigation" href="{% url 'index' %}"> Services Collection</a></h1>
+            {% if user.is_authenticated  and user.is_customer%}
+        <nav>
+                <a href="{% url 'customer details' pk=request.user.pk %}">Profile</a>
+                <a href="{% url 'sing out' %}">Sign out</a>
+        </nav>  {% elif user.is_authenticated  and user.is_provider%}
+        <nav>
+                <a href="{% url 'add service' %}">Add service</a>
+                <a href="{% url 'provider details' pk=request.user.pk %}">Profile</a>
+                <a href="{% url 'sing out' %}">Sign out</a>
+        </nav>
+                {% else %}
+                 <nav>
+                <a href="{% url 'sing in' %}">Sign in</a>
+                <a href="{% url 'sign up' %}">Sign up</a>
+                </nav>
+        {% endif %}
+    </header>
+                <h2>Find the service you are looking for</h2>
+    <section id="index-headline">
+        <div class="index-message">
+             <form class="searchbar" method="post" action="{% url 'index' %}">
+                {{ search_form }}
+                {% csrf_token %}
+                 <input class="btn" type="submit" value="Find Service">
+                </form>
+        </div>
+                <div>
+                <table border="1" cellpadding="5" cellspacing="5">
+                <td>Service</td>
+                        <td>Location</td>
+                        <td>Provider</td>
+                        <td>Details</td>
+                    {% for service in services %}
+                        <tr>
+                            <td>{{ service.type }}</td>
+                            <td>{{ service.location }}</td>
+                            <td>{{ service.provider }}</td>
+                            <td><a href="{% url 'details service' service_slug=service.slug %}">View Service</a></td>
+                        </tr>
+                    {% endfor %}
+                 </table>
+                </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+  <h2>Sign up for a free account</h2>
+  <h2>Select below the type of account you want to create</h2>
+    <section id="index-headline">
+    <div class="index-message">
+  <a href="{% url 'customer sign up' %}" class="btn btn-student btn-lg" role="button">I'm looking for a service</a>
+    </div>
+    </section>
+        <section id="index-headline">
+    <div class="index-message">
+  <a href="{% url 'provider sign up' %}" class="btn btn-teacher btn-lg" role="button">I'm providing a service</a>
+   </div>
+        </section>
+{% endblock %}
