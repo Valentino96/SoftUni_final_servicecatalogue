@@ -1,5 +1,7 @@
 from django.contrib.auth import forms as auth_forms, get_user_model
 from django import forms
+from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.exceptions import ValidationError
 
 from servicecatalogue.accounts.models import CustomerProfile, ProviderProfile
 
@@ -68,3 +70,33 @@ class ProviderEditForm(auth_forms.UserChangeForm):
     class Meta:
         model = ProviderProfile
         fields = ('first_name', 'last_name', 'job',  'address', 'phone_number')
+
+
+class UserEditForm(auth_forms.UserChangeForm):
+    password = ReadOnlyPasswordHashField()
+    class Meta:
+        model = UserModel
+        fields = ('email', 'password', 'is_provider', 'is_customer', 'is_staff')
+
+
+class UserCreateForm(auth_forms.UserCreationForm):
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+    class Meta:
+        model = UserModel
+        fields = ('email', )
+
+    def clean_password2(self):
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise ValidationError("Passwords don't match")
+        return password2
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
