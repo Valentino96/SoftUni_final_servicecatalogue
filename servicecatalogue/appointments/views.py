@@ -98,7 +98,7 @@ def customer_appointments(request):
     user = request.user
     items = Appointment.objects.filter(customer__user_id=user.pk).order_by('date', 'timeslot')
 
-    return render(request, 'bookings/appointments-provider.html', {
+    return render(request, 'bookings/appointments-customer.html', {
         'items': items,
         'user': user,
     })

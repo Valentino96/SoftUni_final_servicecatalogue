@@ -21,8 +21,7 @@ class ApplicationUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
         default=False,
     )
     is_staff = models.BooleanField(default=False)
-    # valentino@abv.bg
-    # kJKwaE7VarxNJfd
+
     USERNAME_FIELD = 'email'
 
     objects = AppUserManager()
@@ -43,6 +42,8 @@ class CustomerProfile(models.Model):
         on_delete=models.CASCADE,
     )
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 class ProviderProfile(models.Model):
     first_name = models.CharField(
@@ -66,5 +67,8 @@ class ProviderProfile(models.Model):
         primary_key=True,
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
 
 

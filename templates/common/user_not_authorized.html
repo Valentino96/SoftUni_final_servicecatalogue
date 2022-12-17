@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <div>
+        <h1>
+            You are not authorized to visit this page!.
+        </h1>
+        <a href="{% url 'index' %}">
+            <button>Return to Home Page</button>
+        </a>
+    </div>
+{% endblock %}

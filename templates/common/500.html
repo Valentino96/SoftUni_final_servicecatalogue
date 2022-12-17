@@ -1,15 +1,10 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% block page_content %}
-    <!-- 404 page -->
-    <div>
-        <img src="{% static 'images/404.png' %}" alt="404 not found gif">
-    </div>
     <div>
         <h1>
-            Uh oh,<br> something broke.
+            Sorry, something went wrong! Please, try again!.
         </h1>
-        <h3>Error 404 - page not found.</h3>
         <a href="{% url 'index' %}">
             <button>Return to Home Page</button>
         </a>

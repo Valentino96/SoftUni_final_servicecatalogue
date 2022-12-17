@@ -8,6 +8,25 @@ from servicecatalogue.core.service_utils import is_owner, get_service_slug, \
     get_service_by_slug
 
 
+def user_not_unauthorized(request):
+    context = {
+        'template_name': '401 (Unauthorized)'
+    }
+    return render(request, context=context, template_name='common/user_not_authorized.html')
+
+
+def handler404(request, *args, **kwargs):
+    response = render(request, context={}, template_name='common/404.html')
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **kwargs):
+    response = render(request, context={}, template_name='common/500.html')
+    response.status_code = 500
+    return response
+
+
 def index(request):
     search_form = SearchServiceForm(request.POST)
     search_pattern = None
@@ -69,7 +88,7 @@ def edit_service(request, service_slug):
     service = get_service_by_slug(service_slug)
 
     if not is_owner(request, service):
-        return redirect('details service', service_slug=service_slug)
+        return redirect('not authorized')
 
     if request.method == 'GET':
         form = EditServiceForm(instance=service)
@@ -96,7 +115,7 @@ def delete_service(request, service_slug):
     service = get_service_by_slug(service_slug)
 
     if not is_owner(request, service):
-        return redirect('details service',  service_slug=service_slug)
+        return redirect('not authorized')
 
     if request.method == 'GET':
         form = DeleteServiceForm(instance=service)
