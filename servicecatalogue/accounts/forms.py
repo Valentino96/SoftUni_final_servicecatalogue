@@ -1,6 +1,7 @@
 from django.contrib.auth import forms as auth_forms, get_user_model
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth.models import Group
 from django.core.exceptions import ValidationError
 
 from servicecatalogue.accounts.models import CustomerProfile, ProviderProfile
@@ -26,7 +27,9 @@ class CustomerCreateForm(auth_forms.UserCreationForm):
             user=user,
         )
         user.is_customer = True
+        user_group = Group.objects.get(name='Customers')
         user.save()
+        user.groups.add(user_group)
         if commit:
             profile.save()
         return user
@@ -54,7 +57,9 @@ class ProviderCreateForm(auth_forms.UserCreationForm):
             user=user,
         )
         user.is_provider = True
+        user_group = Group.objects.get(name='Providers')
         user.save()
+        user.groups.add(user_group)
         if commit:
             profile.save()
         return user
@@ -76,7 +81,7 @@ class UserEditForm(auth_forms.UserChangeForm):
     password = ReadOnlyPasswordHashField()
     class Meta:
         model = UserModel
-        fields = ('email', 'password', 'is_provider', 'is_customer', 'is_staff')
+        fields = ('email', 'password', 'is_provider', 'is_customer', 'is_staff', 'groups')
 
 
 class UserCreateForm(auth_forms.UserCreationForm):
@@ -85,7 +90,7 @@ class UserCreateForm(auth_forms.UserCreationForm):
 
     class Meta:
         model = UserModel
-        fields = ('email', )
+        fields = ('email', 'groups')
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")

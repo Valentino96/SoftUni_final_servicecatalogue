@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin, get_user_model
 
-from servicecatalogue.accounts.forms import UserEditForm, UserCreateForm
+from servicecatalogue.accounts.forms import UserEditForm, UserCreateForm, CustomerEditForm, CustomerCreateForm
 from servicecatalogue.accounts.models import CustomerProfile, ProviderProfile
 
 UserModel = get_user_model()
@@ -16,7 +16,7 @@ class UserAdmin(auth_admin.UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal info', {'fields': ('is_customer', 'is_provider')}),
-        ('Permissions', {'fields': ('is_staff',)}),
+        ('Permissions', {'fields': ('is_staff', 'groups')}),
     )
     add_fieldsets = (
         (None, {
