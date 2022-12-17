@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth import models as auth_models
+from django.core import validators
 
 from servicecatalogue.accounts.managers import AppUserManager
+from servicecatalogue.core.modelsvalidators import validate_is_letters_only
 
 
 class ApplicationUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
@@ -28,11 +30,26 @@ class ApplicationUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin
 
 
 class CustomerProfile(models.Model):
+    MAX_LENGTH_NAME = 25
+    MIN_LENGTH_NAME = 2
+
     first_name = models.CharField(
-        max_length=25
+        max_length=MAX_LENGTH_NAME,
+        null=False,
+        blank=False,
+        validators=(
+            validators.MinLengthValidator(MIN_LENGTH_NAME),
+            validate_is_letters_only,
+        )
     )
     last_name = models.CharField(
-        max_length=25
+        max_length=MAX_LENGTH_NAME,
+        null=False,
+        blank=False,
+        validators=(
+            validators.MinLengthValidator(MIN_LENGTH_NAME),
+            validate_is_letters_only,
+        )
     )
     age = models.PositiveIntegerField()
 
@@ -45,18 +62,36 @@ class CustomerProfile(models.Model):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+
 class ProviderProfile(models.Model):
+    MAX_LENGTH_NAME = 25
+    MIN_LENGTH_NAME = 2
+    MAX_LENGTH_ADDRESS = 35
+    MAX_LENGTH_JOB = 15
+
     first_name = models.CharField(
-        max_length=30
+        max_length=MAX_LENGTH_NAME,
+        null=False,
+        blank=False,
+        validators=(
+            validators.MinLengthValidator(MIN_LENGTH_NAME),
+            validate_is_letters_only,
+        )
     )
     last_name = models.CharField(
-        max_length=30,
+        max_length=MAX_LENGTH_NAME,
+        null=False,
+        blank=False,
+        validators=(
+            validators.MinLengthValidator(MIN_LENGTH_NAME),
+            validate_is_letters_only,
+        )
     )
     job = models.CharField(
-        max_length=30,
+        max_length=MAX_LENGTH_JOB,
     )
     address = models.CharField(
-        max_length=35,
+        max_length=MAX_LENGTH_ADDRESS,
     )
     phone_number = models.PositiveIntegerField(
         null=False,

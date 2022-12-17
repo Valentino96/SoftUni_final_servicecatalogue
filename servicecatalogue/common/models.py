@@ -17,20 +17,24 @@ SERVICE_CHOICES = [
 
 
 class Service(models.Model):
+    MAX_LENGTH_TYPE = 30
+    MAX_LENGTH_DESCRIPTION = 300
+    MAX_LENGTH_LOCATION = 30
+
     type = models.CharField(
-        max_length=30,
+        max_length=MAX_LENGTH_TYPE,
         choices=SERVICE_CHOICES,
         default=None,
     )
     description = models.TextField(
-        max_length=300,
+        max_length=MAX_LENGTH_DESCRIPTION,
     )
     provider = models.ForeignKey(
         UserModel,
         on_delete=models.CASCADE,
     )
     location = models.CharField(
-        max_length=50,
+        max_length=MAX_LENGTH_LOCATION,
     )
     slug = models.SlugField(
         unique=True,
